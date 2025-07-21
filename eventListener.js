@@ -76,5 +76,8 @@ function listenToEvents() {
 
   console.log("✅ Event listeners initialized.");
 }
+function getLogs() {
+  return tradeLogs.slice(-50).reverse();
+}
 
 export { listenToEvents, getLogs };
