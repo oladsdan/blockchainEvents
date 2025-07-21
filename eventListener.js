@@ -59,10 +59,10 @@ function listenToEvents() {
       timestamp: Date.now(),
       txHash: event.transactionHash,
     });
-    console.log(`💰 DepositMade: ${user}`);
+    console.log(`💰 DepositMade: ${readableAmount}`);
   });
   
-  contract.on('FundsWithdrawn', (token, amount) => {
+  contract.on('FundsWithdrawn', (token, amount, event) => {
     const readableAmount = formatUnits(amount, 18)
     tradeLogs.push({
       type: 'Withdrawn',
@@ -71,7 +71,7 @@ function listenToEvents() {
       timestamp: Date.now(),
       txHash: event.transactionHash,
     });
-    console.log(`💰 DepositMade: ${user}`);
+    console.log(`💰 WithdrawnMade: ${readableAmount}`);
   });
 
   console.log("✅ Event listeners initialized.");
