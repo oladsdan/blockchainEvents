@@ -22,7 +22,7 @@ function connectProvider() {
 
     setupListeners();
 
-     provider.on('close', (code) => {
+     provider.on('disconnect', (code) => {
       console.warn(`⚠️ WebSocket closed with code ${code}. Reconnecting...`);
       reconnect();
     });
