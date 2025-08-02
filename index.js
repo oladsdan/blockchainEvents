@@ -7,7 +7,7 @@ const options = {
   cert: fs.readFileSync('./ssl/cert.pem'),
 };
 
-https.createServer(options, app).listen(443, () => {
+https.createServer(options, app).listen(8443, () => {
   console.log('🔐 HTTPS API running on port 443');
 //   connectDBB(); // make sure this is not async here
 //   listenToEvents();
