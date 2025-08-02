@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { listenToEvents, getLogs } from './eventListener.js';
-import { connectDB } from './models/ConnectDb.js';
+import { getLogs } from './eventListener.js';
+// import { connectDB } from './models/ConnectDb.js';
 
 
 const app = express();
@@ -22,19 +22,19 @@ app.get('/api/trades', async (req, res) => {
   }
 });
 
-(async () => {
-  try {
-    await connectDB();               // connect MongoDB
-    listenToEvents();                 // start listening to contract events
+// (async () => {
+//   try {
+//     await connectDB();               // connect MongoDB
+//     listenToEvents();                 // start listening to contract events
 
-    app.listen(process.env.PORT || 5001, () => {
-      console.log(`🚀 API running on port ${process.env.PORT || 5001}`);
-    });
-  } catch (err) {
-    console.error("❌ Failed to start app:", err.message);
-    process.exit(1); // Exit process on startup failure
-  }
-})();
+//     app.listen(process.env.PORT || 5001, () => {
+//       console.log(`🚀 API running on port ${process.env.PORT || 5001}`);
+//     });
+//   } catch (err) {
+//     console.error("❌ Failed to start app:", err.message);
+//     process.exit(1); // Exit process on startup failure
+//   }
+// })();
 
 // app.listen(process.env.PORT || 5001, () => {
 //   console.log(`API running on port ${process.env.PORT || 5001}`);
