@@ -9,6 +9,6 @@ const options = {
 
 https.createServer(options, app).listen(443, () => {
   console.log('🔐 HTTPS API running on port 443');
-  connectDBB(); // make sure this is not async here
-  listenToEvents();
+//   connectDBB(); // make sure this is not async here
+//   listenToEvents();
 });

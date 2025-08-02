@@ -41,3 +41,5 @@ app.get('/api/trades', async (req, res) => {
 //   await connectDBB();
 //   listenToEvents();
 // });
+
+export default app;
