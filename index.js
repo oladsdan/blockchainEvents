@@ -1,32 +1,45 @@
-import https from 'https';
-import fs from 'fs';
-import app from './app.js'; // your Express app
+import express from 'express';
+import cors from 'cors';
+import { getLogs, listenToEvents } from './eventListener.js';
 import { connectDB } from './models/ConnectDb.js';
-import { listenToEvents } from './eventListener.js';
 
-const options = {
-  key: fs.readFileSync('./ssl/key.pem'),
-  cert: fs.readFileSync('./ssl/cert.pem'),
-};
 
-// https.createServer(options, app).listen(8443, () => {
-//   console.log('🔐 HTTPS API running on port 443');
-// //   connectDBB(); // make sure this is not async here
-// //   listenToEvents();
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+
+// app.get('/api/trades', (req, res) => {
+//   res.json(getLogs());
 // });
-
-const PORT = 7070;
+app.get('/api/trades', async (req, res) => {
+  try {
+    const logs = await getLogs(); // ✅ wait for logs
+    res.json(logs);
+  } catch (err) {
+    console.error("❌ Failed to fetch logs:", err.message);
+    res.status(500).json({ error: "Failed to fetch trade logs" });
+  }
+});
 
 (async () => {
   try {
-    await connectDB();      // Connect MongoDB
-    listenToEvents();       // Start event listeners
+    await connectDB();               // connect MongoDB
+    listenToEvents();                 // start listening to contract events
 
-    https.createServer(options, app).listen(PORT, () => {
-      console.log(`🔐 HTTPS API running on port ${PORT}`);
+    app.listen(process.env.PORT || 5001, () => {
+      console.log(`🚀 API running on port ${process.env.PORT || 5001}`);
     });
   } catch (err) {
-    console.error("❌ Startup failed:", err.message);
-    process.exit(1);
+    console.error("❌ Failed to start app:", err.message);
+    process.exit(1); // Exit process on startup failure
   }
 })();
+
+// app.listen(process.env.PORT || 5001, () => {
+//   console.log(`API running on port ${process.env.PORT || 5001}`);
+//   await connectDB();
+//   listenToEvents();
+// });
+
+// export default app;
